@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Users</title>
+    <meta name="description" content="APP Web Task 5">
+    <meta name="author" content="SitePoint">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/myStyle.css') }}">
+</head>
+
+<body>
+    <header class="w-container w3-teal w3-padding-large">
+        <h2>APP Single Page App</h2>
+    </header>
+    <div class="w3-row">
+        <section id="sectUsers" class="w3-container w3-twothird">
+            <div>
+                <h2>Current Users</h2>
+                <div id="divPageNumber">Page <span id="pageNumber">1</span> of <span id="totalPages">2</span></div>
+                <button id="btnPrevious" class="w3-button w3-padding"
+                    style="background-color: #42B2A6; color:white;">Previous</button>
+                <button id="btnNext" class="w3-button w3-padding"
+                    style="background-color: #42B2A6; color:white;">Next</button>
+                <table id="tblUsers" class="w3-table w3-striped">
+                    <tbody>
+                        <!--
+                        <tr id="tblUserHeader">
+                            <th>User ID</th>
+                            <th>Email</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Avatar</th>
+                        </tr>
+                        <tr id="user1">
+                            <td>1</td>
+                            <td>george.bluth@reqres.in</td>
+                            <td>George</td>
+                            <td>Bluth</td>
+                            <td><img src="https://s3.amazonaws.com/uifaces/faces/twitter/calebogden/128.jpg"
+                                    alt="avatar" class="w3-round"></td>
+                        </tr>
+                        <tr id="user2">
+                            <td>2</td>
+                            <td>janet.weaver@reqres.in</td>
+                            <td>Janet</td>
+                            <td>Weaver</td>
+                            <td><img src="https://s3.amazonaws.com/uifaces/faces/twitter/josephstein/128.jpg"
+                                    alt="avatar" class="w3-round"></td>
+                        </tr>
+                        <tr id="user3">
+                            <td>3</td>
+                            <td>emma.wong@reqres.in</td>
+                            <td>Emma</td>
+                            <td>Wong</td>
+                            <td><img src="https://s3.amazonaws.com/uifaces/faces/twitter/olegpogodaev/128.jpg"
+                                    alt="avatar" class="w3-round"></td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>eve.holt@reqres.in</td>
+                            <td>Eve</td>
+                            <td>Holt</td>
+                            <td><img src="https://s3.amazonaws.com/uifaces/faces/twitter/marcoramires/128.jpg"
+                                    alt="avatar" class="w3-round"></td>
+                        </tr>
+                        <tr id="user5">
+                            <td>5</td>
+                            <td>charles.morris@reqres.in</td>
+                            <td>Charles</td>
+                            <td>Morris</td>
+                            <td><img src="https://s3.amazonaws.com/uifaces/faces/twitter/stephenmoon/128.jpg"
+                                    alt="avatar" class="w3-round"></td>
+                        </tr>
+                        <tr id="user6">
+                            <td>6</td>
+                            <td>tracey.ramos@reqres.in</td>
+                            <td>Tracey</td>
+                            <td>Ramos</td>
+                            <td><img src="https://s3.amazonaws.com/uifaces/faces/twitter/bigmancho/128.jpg" alt="avatar"
+                                    class="w3-round"></td>
+                        </tr> -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <div id="theUsersBit" class="w3-third w3-margin-bottom">
+            <section id="sectUser" class="w3-container">
+                <div class="w3-card w3-margin">
+                    <header id="userHeaderContainer1" class="w3-container w3-teal w3-padding">
+                        <h2>Update Credentials</h2>
+                    </header>
+
+                    <img id="userAvatar" src="https://s3.amazonaws.com/uifaces/faces/twitter/calebogden/128.jpg"
+                        alt="avatar" class="w3-padding w3-round">
+                    <form id="frmUser" class="w3-container w3-padding">
+                        <label>User ID</label>
+                        <input type="text" id="userID" class="w3-input w3-border"><br>
+                        <label>Email</label>
+                        <input type="text" id="userEmail" class="w3-input w3-border"><br>
+                        <label>First Name</label>
+                        <input type="text" id="userFirstName" class="w3-input w3-border"><br>
+                        <label>Last Name</label>
+                        <input type="text" id="userLastName" class="w3-input w3-border">
+                        <div>
+                            <button id="btnSaveUser" class="w3-button w3-margin-top"
+                                style="background-color: #42B2A6; color:white;">Save Changes</button>
+                            <button id="btnDeleteUser" class="w3-button w3-margin-top"
+                                style="background-color: #42B2A6; color:white;">Delete User</button>
+                        </div>
+                    </form>
+
+                </div>
+            </section>
+            <section id="sectNewUser" class="w3-container w3-margin-bottom">
+                <div class="w3-card w3-margin">
+                    <header id="userHeaderContainer2" class="w3-container w3-teal w3-padding">
+                        <h2>New User</h2>
+                    </header>
+
+                    <form id="frmNewUser" class="w3-container w3-padding">
+                        <label>Username</label>
+                        <input type="text" id="userName" class="w3-input w3-border"><br>
+                        <label>Job</label>
+                        <input type="text" id="userJob" class="w3-input w3-border">
+                        <div>
+                            <button id="btnNewUser" class="w3-button w3-margin-top"
+                                style="background-color: #42B2A6; color:white;">New User</button>
+                        </div>
+                    </form>
+
+                </div>
+            </section>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>
