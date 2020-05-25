@@ -13,10 +13,22 @@ function getReqres(pageNo) {
 }
 
 
+function getUsers(pageNo) {
+    document.getElementById('pageNumber').innerHTML = pageNo;
+    var request = new XMLHttpRequest();
+    request.open('GET', 'https://reqres.in/api/users?page=' + pageNo);
+    request.onload = function () {
+        var jReponse = JSON.parse(request.response);
+        createTable(jReponse);
+    }
+    request.send();
+}
+
 
 function createTable(users) {
     var table = document.getElementById('tblUsers');
 
+    // reset table
     table.innerHTML = "";
 
     // create header row
@@ -72,9 +84,7 @@ function createTable(users) {
 
 function getUser(userID) {
     var pageNo = document.getElementById('pageNumber').innerHTML;
-    if (pageNo == 2) {
-        userID += 6;
-    }
+    userID = userID + (pageNo * 6) - 6;
     var request = new XMLHttpRequest();
     request.open('GET', '/users/' + userID);
     request.onload = function () {
@@ -85,6 +95,7 @@ function getUser(userID) {
 }
 
 function refreshUpdateCredentials(response) {
+    // document.getElementById('userAvatar').src = "test.jpg";
     return console.log(response);
 }
 
