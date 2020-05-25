@@ -46,8 +46,10 @@ function createTable(users) {
         var tRow = table.insertRow(index = -1);
 
         // event listener for get request upon click
-        console.log("user = " + user);
-        tRow.addEventListener('click', function() {getUser(user)})
+        // must use let here, as var overwrites each command with the next. 
+        // let uses block level scope, thus not overwriting the last command each loop. 
+        let thisUser = parseInt(user);
+        tRow.addEventListener('click', function() {getUser(thisUser+1)});
 
         var tCell0 = tRow.insertCell(index = 0);
         tCell0.innerHTML = users.data[user].id;
@@ -69,6 +71,10 @@ function createTable(users) {
 }
 
 function getUser(userID) {
+    var pageNo = document.getElementById('pageNumber').innerHTML;
+    if (pageNo == 2) {
+        userID += 6;
+    }
     var request = new XMLHttpRequest();
     request.open('GET', '/users/' + userID);
     request.onload = function () {
@@ -79,7 +85,6 @@ function getUser(userID) {
 }
 
 function refreshUpdateCredentials(response) {
-    console.log("Refresh Update Credentials Called");
     return console.log(response);
 }
 
