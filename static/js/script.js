@@ -1,24 +1,22 @@
-var btnPageOne = document.getElementById('btnPrevious');
-var btnPageTwo = document.getElementById('btnNext');
-
-function getReqres(pageNo) {
-    document.getElementById('pageNumber').innerHTML = pageNo;
-    var request = new XMLHttpRequest();
-    request.open('GET', 'https://reqres.in/api/users?page=' + pageNo);
-    request.onload = function () {
-        var jReponse = JSON.parse(request.response);
-        createTable(jReponse);
-    }
-    request.send();
-}
+// function getReqres(pageNo) {
+//     document.getElementById('pageNumber').innerHTML = pageNo;
+//     var request = new XMLHttpRequest();
+//     request.open('GET', 'https://reqres.in/api/users?page=' + pageNo);
+//     request.onload = function () {
+//         var jReponse = JSON.parse(request.response);
+//         createTable(jReponse);
+//     }
+//     request.send();
+// }
 
 
 function getUsers(pageNo) {
     document.getElementById('pageNumber').innerHTML = pageNo;
     var request = new XMLHttpRequest();
-    request.open('GET', 'https://reqres.in/api/users?page=' + pageNo);
+    request.open('GET', '/users?page=' + pageNo);
     request.onload = function () {
         var jReponse = JSON.parse(request.response);
+        getMaxPage();
         createTable(jReponse);
     }
     request.send();
@@ -61,7 +59,7 @@ function createTable(users) {
         // must use let here, as var overwrites each command with the next. 
         // let uses block level scope, thus not overwriting the last command each loop. 
         let thisUser = parseInt(user);
-        tRow.addEventListener('click', function() {getUser(thisUser+1)});
+        tRow.addEventListener('click', function () { getUser(thisUser + 1) });
 
         var tCell0 = tRow.insertCell(index = 0);
         tCell0.innerHTML = users.data[user].id;
@@ -84,7 +82,10 @@ function createTable(users) {
 
 function getUser(userID) {
     var pageNo = document.getElementById('pageNumber').innerHTML;
+
+    // allows for more than 2 pages of users. 
     userID = userID + (pageNo * 6) - 6;
+
     var request = new XMLHttpRequest();
     request.open('GET', '/users/' + userID);
     request.onload = function () {
@@ -99,10 +100,38 @@ function refreshUpdateCredentials(response) {
     return console.log(response);
 }
 
-getReqres(1);
+getUsers(1);
 
 // function() {} used to pass parameter without calling function on this line of code.
 // found out about this from Mozilla documentation of addEventListener.
-btnPageOne.addEventListener('click', function () { getReqres(1) });
-btnPageTwo.addEventListener('click', function () { getReqres(2) });
+
+function getMaxPage() {
+    var request = new XMLHttpRequest();
+    request.open('GET', '/totalPages/');
+    request.onload = function () {
+        var totalPages = request.response;
+        document.getElementById('totalPages').innerHTML = totalPages;
+    }
+    request.send();
+}
+
+var currPage = parseInt(document.getElementById('pageNumber').innerHTML);
+
+var btnPageOne = document.getElementById('btnPrevious');
+var btnPageTwo = document.getElementById('btnNext');
+
+btnPageOne.addEventListener('click', function () {
+    var prevPage = parseInt(document.getElementById('pageNumber').innerHTML) - 1;
+    if (prevPage < 1) {
+        prevPage = 1;
+    }
+    getUsers(prevPage);
+});
+btnPageTwo.addEventListener('click', function () {
+    var nextPage = parseInt(document.getElementById('pageNumber').innerHTML) + 1;
+    if (nextPage > parseInt(document.getElementById('totalPages').innerHTML)) {
+        nextPage = parseInt(document.getElementById('totalPages').innerHTML);
+    }
+    getUsers(nextPage);
+});
 
