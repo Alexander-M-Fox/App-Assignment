@@ -116,7 +116,7 @@ def getUserList():
 
 @app.route('/totalPages/')
 def getTotalPages():
-    # page x of y - this function returns y. 
+    # page x of y - this function returns y.
     return str(math.ceil(len(userList) / 6))
 
 

@@ -96,7 +96,13 @@ function getUser(userID) {
 }
 
 function refreshUpdateCredentials(response) {
-    // document.getElementById('userAvatar').src = "test.jpg";
+    // updates 'Update Credentials' container
+    document.getElementById('userAvatar').src = response.avatar;
+    document.getElementById('userID').value = response.id;
+    document.getElementById('userEmail').value = response.email;
+    document.getElementById('userFirstName').value = response.first_name;
+    document.getElementById('userLastName').value = response.last_name;
+
     return console.log(response);
 }
 
