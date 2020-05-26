@@ -120,25 +120,28 @@ def getTotalPages():
     return str(math.ceil(len(userList) / 6))
 
 
-@app.route('/users/<userID>/', methods=["POST", "GET"])
+@app.route('/users/<userID>/', methods=["GET"])
 def singleUser(userID):
-    if request.method == "GET":
-        # if there is no userID, return full list.
-        if len(userID) == 0:
-            return getUserList
+    # if there is no userID, return full list.
+    if len(userID) == 0:
+        return getUserList
 
-        userInt = int(userID) - 1
-        if userInt < len(userList):
-            return jsonify(userList[userInt])
-        else:
-            return "User not found", 404
+    userInt = int(userID) - 1
+    if userInt < len(userList):
+        return jsonify(userList[userInt])
     else:
-        if len(userID) == 0:
-            return "Error no userID provided"
-        userInt = int(userID) - 1
-        currUser = userList[userInt]
-        print(currUser)
-        return currUser
+        return "User not found", 404
+
+
+@app.route('/users/<userID>/', methods=["PUT"])
+def updateUser(userID):
+    print("update user called")
+    if len(userID) == 0:
+        return "Error no userID provided"
+    userInt = int(userID) - 1
+    currUser = userList[userInt]
+    print(currUser)
+    return currUser
 
 
 app.run()  # debug=True)

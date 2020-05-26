@@ -81,9 +81,6 @@ function createTable(users) {
 }
 
 function getUser(userID) {
-    // update form action for update credentials
-    document.getElementById('frmUser').action = "/users/" + userID + "/";
-
     var pageNo = document.getElementById('pageNumber').innerHTML;
 
     // allows for more than 2 pages of users. 
@@ -98,6 +95,32 @@ function getUser(userID) {
     request.send();
 }
 
+function updateUser() {
+    console.log("Update user called");
+
+    // pull data from form
+    var data = {};
+    data.id = document.getElementById('userID').value;
+    data.email = document.getElementById('userEmail').value;
+    data.first_name = document.getElementById('userFirstName').value;
+    data.last_name = document.getElementById('userLastName').value;
+
+    var json = JSON.stringify(data);
+
+    // create and send put request to backend
+    var request = new XMLHttpRequest();
+    console.log(data.id);
+    request.open('PUT', '/users/' + data.id + '/');
+    request.onload = function () {
+        var jReponse = JSON.parse(request.response);
+        console.log(jReponse);
+        return jReponse;
+    }
+    request.send(json);
+
+    return "";
+}
+
 function refreshUpdateCredentials(response) {
     // updates 'Update Credentials' container
     document.getElementById('userAvatar').src = response.avatar;
@@ -105,6 +128,8 @@ function refreshUpdateCredentials(response) {
     document.getElementById('userEmail').value = response.email;
     document.getElementById('userFirstName').value = response.first_name;
     document.getElementById('userLastName').value = response.last_name;
+
+    console.log("user id is " + document.getElementById('userID').value);
 
     return console.log(response);
 }
