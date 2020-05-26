@@ -105,15 +105,13 @@ function updateUser() {
     data.last_name = document.getElementById('userLastName').value;
 
     var json = JSON.stringify(data);
-    console.log(json);
 
     // create and send put request to backend
     var request = new XMLHttpRequest();
     request.open('PUT', '/users/' + data.id + '/');
     request.onload = function () {
         var jReponse = JSON.parse(request.response);
-        console.log(jReponse);
-        return jReponse;
+        getUsers(document.getElementById('pageNumber').innerHTML);
     }
     request.send(json);
 
@@ -132,6 +130,7 @@ function refreshUpdateCredentials(response) {
 }
 
 getUsers(1);
+getUser(1);
 
 // function() {} used to pass parameter without calling function on this line of code.
 // found out about this from Mozilla documentation of addEventListener.
@@ -142,6 +141,7 @@ function getMaxPage() {
     request.onload = function () {
         var totalPages = request.response;
         document.getElementById('totalPages').innerHTML = totalPages;
+        return totalPages
     }
     request.send();
 }
