@@ -111,6 +111,11 @@ function updateUser() {
     request.open('PUT', '/users/' + data.id + '/');
     request.onload = function () {
         var jReponse = JSON.parse(request.response);
+
+        // make "Save Changes" button provide feedback that user has been updated
+        var button = document.getElementById('btnSaveUser')
+        button.innerHTML = "User updated!";
+        button.className = "w3-button w3-disabled w3-margin-top";
         getUsers(document.getElementById('pageNumber').innerHTML);
     }
     request.send(json);
@@ -125,6 +130,12 @@ function refreshUpdateCredentials(response) {
     document.getElementById('userEmail').value = response.email;
     document.getElementById('userFirstName').value = response.first_name;
     document.getElementById('userLastName').value = response.last_name;
+
+    // ensure "save changes" button no longer says "user updated" from updateUser();
+    var button = document.getElementById('btnSaveUser')
+    button.innerHTML = "Save Changes";
+    button.className = "w3-button w3-margin-top";
+    button.style = "background-color: #42B2A6; color:white;";
 
 
 }
