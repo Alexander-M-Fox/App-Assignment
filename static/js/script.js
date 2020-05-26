@@ -13,7 +13,7 @@
 function getUsers(pageNo) {
     document.getElementById('pageNumber').innerHTML = pageNo;
     var request = new XMLHttpRequest();
-    request.open('GET', '/users?page=' + pageNo);
+    request.open('GET', '/users/?page=' + pageNo);
     request.onload = function () {
         var jReponse = JSON.parse(request.response);
         getMaxPage();
@@ -96,7 +96,6 @@ function getUser(userID) {
 }
 
 function updateUser() {
-    console.log("Update user called");
 
     // pull data from form
     var data = {};
@@ -109,7 +108,6 @@ function updateUser() {
 
     // create and send put request to backend
     var request = new XMLHttpRequest();
-    console.log(data.id);
     request.open('PUT', '/users/' + data.id + '/');
     request.onload = function () {
         var jReponse = JSON.parse(request.response);
@@ -129,9 +127,7 @@ function refreshUpdateCredentials(response) {
     document.getElementById('userFirstName').value = response.first_name;
     document.getElementById('userLastName').value = response.last_name;
 
-    console.log("user id is " + document.getElementById('userID').value);
 
-    return console.log(response);
 }
 
 getUsers(1);

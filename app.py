@@ -135,13 +135,15 @@ def singleUser(userID):
 
 @app.route('/users/<userID>/', methods=["PUT"])
 def updateUser(userID):
-    print("update user called")
     if len(userID) == 0:
         return "Error no userID provided"
+    # newEmail = request.json['email']
+    # print(newEmail)
     userInt = int(userID) - 1
-    currUser = userList[userInt]
-    print(currUser)
-    return currUser
+    print('userList[userInt]["email"] BEFORE = ' + userList[userInt]["email"])
+    userList[userInt]["email"] = "test@test.com"
+    print('userList[userInt]["email"] AFTER = ' + userList[userInt]["email"])
+    return userList[userInt]
 
 
-app.run()  # debug=True)
+app.run(debug=True)
