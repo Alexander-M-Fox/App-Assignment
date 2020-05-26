@@ -94,18 +94,18 @@
 
                     <img id="userAvatar" src="https://s3.amazonaws.com/uifaces/faces/twitter/calebogden/128.jpg"
                         alt="avatar" class="w3-padding w3-round">
-                    <form id="frmUser" class="w3-container w3-padding">
+                    <form id="frmUser" class="w3-container w3-padding" method="POST">
                         <label>User ID</label>
-                        <input type="text" id="userID" class="w3-input w3-border" readonly><br>
+                        <input type="text" id="userID" class="w3-input w3-border" name="uID" readonly><br>
                         <label>Email</label>
-                        <input type="text" id="userEmail" class="w3-input w3-border"><br>
+                        <input type="text" id="userEmail" class="w3-input w3-border" name="uEmail"><br>
                         <label>First Name</label>
-                        <input type="text" id="userFirstName" class="w3-input w3-border"><br>
+                        <input type="text" id="userFirstName" class="w3-input w3-border" name="uFirstName"><br>
                         <label>Last Name</label>
-                        <input type="text" id="userLastName" class="w3-input w3-border">
+                        <input type="text" id="userLastName" class="w3-input w3-border" name="uLastName">
                         <div>
-                            <button id="btnSaveUser" class="w3-button w3-margin-top"
-                                style="background-color: #42B2A6; color:white;">Save Changes</button>
+                            <button id="btnSaveUser" class="w3-button w3-margin-top" 
+                                style="background-color: #42B2A6; color:white;" type="submit">Save Changes</button>
                             <button id="btnDeleteUser" class="w3-button w3-margin-top"
                                 style="background-color: #42B2A6; color:white;">Delete User</button>
                         </div>

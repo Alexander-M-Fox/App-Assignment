@@ -81,13 +81,16 @@ function createTable(users) {
 }
 
 function getUser(userID) {
+    // update form action for update credentials
+    document.getElementById('frmUser').action = "/users/" + userID + "/";
+
     var pageNo = document.getElementById('pageNumber').innerHTML;
 
     // allows for more than 2 pages of users. 
     userID = userID + (pageNo * 6) - 6;
 
     var request = new XMLHttpRequest();
-    request.open('GET', '/users/' + userID);
+    request.open('GET', '/users/' + userID + '/');
     request.onload = function () {
         var jReponse = JSON.parse(request.response);
         refreshUpdateCredentials(jReponse);
