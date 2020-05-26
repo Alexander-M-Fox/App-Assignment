@@ -105,6 +105,7 @@ function updateUser() {
     data.last_name = document.getElementById('userLastName').value;
 
     var json = JSON.stringify(data);
+    console.log(json);
 
     // create and send put request to backend
     var request = new XMLHttpRequest();
