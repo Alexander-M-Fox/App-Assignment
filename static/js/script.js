@@ -1,20 +1,9 @@
-// function getReqres(pageNo) {
-//     document.getElementById('pageNumber').innerHTML = pageNo;
-//     var request = new XMLHttpRequest();
-//     request.open('GET', 'https://reqres.in/api/users?page=' + pageNo);
-//     request.onload = function () {
-//         var jReponse = JSON.parse(request.response);
-//         createTable(jReponse);
-//     }
-//     request.send();
-// }
-
-
 function getUsers(pageNo) {
     document.getElementById('pageNumber').innerHTML = pageNo;
     var request = new XMLHttpRequest();
     request.open('GET', '/users/?page=' + pageNo);
     request.onload = function () {
+        // returns list of users within a page. 
         var jReponse = JSON.parse(request.response);
         getMaxPage();
         createTable(jReponse);
@@ -59,7 +48,9 @@ function createTable(users) {
         // must use let here, as var overwrites each command with the next. 
         // let uses block level scope, thus not overwriting the last command each loop. 
         let thisUser = parseInt(user);
-        tRow.addEventListener('click', function () { getUser(thisUser + 1) });
+
+        // needs to call backend for user ID
+        tRow.addEventListener('click', function () { getUser(thisUser + 1) });  
 
         var tCell0 = tRow.insertCell(index = 0);
         tCell0.innerHTML = users.data[user].id;
@@ -84,7 +75,7 @@ function getUser(userID) {
     var pageNo = document.getElementById('pageNumber').innerHTML;
 
     // allows for more than 2 pages of users. 
-    userID = userID + (pageNo * 6) - 6;
+    userID = userID + (pageNo * 6) - 6; // makes up for using rows.
 
     var request = new XMLHttpRequest();
     request.open('GET', '/users/' + userID + '/');

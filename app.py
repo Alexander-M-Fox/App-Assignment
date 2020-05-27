@@ -28,8 +28,6 @@ def getUserList():
 @app.route('/totalPages/')
 def getTotalPages():
     # page x of y - this function returns y.
-    with open('users.json') as file:
-        userList = json.load(file)
     return str(math.ceil(len(userList) / 6))
 
 
