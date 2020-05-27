@@ -75,11 +75,17 @@ def deleteUser(userID):
     if len(userID) == 0:
         return "Error no userID provided"
 
-    userInt = int(userID) - 1
+    userInt = int(userID)
 
-    if len(userList) >= userInt:
-        del userList[userInt]
-    else:
+    found = False
+    # search through json file for correct user
+    for user in range(len(userList)):
+
+        if userList[user]['id'] == str(userInt):
+            found = True
+            del userList[user]
+
+    if found == False:
         return "error user not found"
 
     # write this onto users.json file for persistence.
