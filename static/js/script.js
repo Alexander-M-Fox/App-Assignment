@@ -71,7 +71,7 @@ function createTable(users) {
 
 }
 
-function getUser(userID) {
+function getUser(userID) { // getUser (singular) is different from getUsers (plural) at the very top of script.js
     var pageNo = document.getElementById('pageNumber').innerHTML;
 
     var request = new XMLHttpRequest();
@@ -150,10 +150,14 @@ function newUser() {
     var request = new XMLHttpRequest();
     request.open('POST', '/users/new/');
     request.onload = function () {
-
         // make "New User" button provide feedback that user has been created
         newButton.innerHTML = "User created!";
+        document.getElementById('newEmail').value = "";
+        document.getElementById('newFirstName').value = "";
+        document.getElementById('newLastName').value = "";
+        document.getElementById('newAvatar').value = "";
         newButton.className = "w3-button w3-disabled w3-margin-top";
+        getUsers(document.getElementById('pageNumber').innerHTML);
     }
     request.send(json);
 }
@@ -179,7 +183,11 @@ function refreshUpdateCredentials(response) {
     button2.className = "w3-button w3-margin-top";
     button2.style = "background-color: #42B2A6; color:white;";
 
-    document.getElementById('btnNewUser').innerHTML = "New User";
+    // ensure "new user" button no longer says "user created" from newUser();
+    var newButton = document.getElementById('btnNewUser');
+    newButton.innerHTML = "New User";
+    newButton.className = "w3-button w3-margin-top"
+
 
 
 }

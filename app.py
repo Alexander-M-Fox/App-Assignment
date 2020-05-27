@@ -37,11 +37,15 @@ def singleUser(userID):
     if len(userID) == 0:
         return getUserList
 
-    userInt = int(userID) - 1
-    if userInt < len(userList):
-        return jsonify(userList[userInt])
-    else:
-        return "User not found", 404
+    userInt = int(userID)
+
+    # search through json file for correct user
+    for user in userList:
+        if user['id'] == str(userInt):
+            return jsonify(user)
+        
+    # fail code
+    return "User not found", 404
 
 
 @app.route('/users/<userID>/', methods=["PUT"])
@@ -73,7 +77,7 @@ def deleteUser(userID):
 
     userInt = int(userID) - 1
 
-    if userList[userInt] in userList:
+    if len(userList) >= userInt:
         del userList[userInt]
     else:
         return "error user not found"
@@ -83,5 +87,30 @@ def deleteUser(userID):
         json.dump(userList, file, indent=4)
     return "success"
 
+@app.route('/users/new/', methods=["POST"])
+def createUser():
+    # convert string to json 
+    userData = json.loads(request.data)
+    
+    # input validation
+    if userData['email'] == "" or userData['first_name'] == "" or userData['last_name'] == "" or userData['avatar'] == "":
+        return "createUser(): fields must not be empty"
 
-app.run(debug=True)
+    
+    # find id of last user in users.json
+    lastUsedID = userList[len(userList) - 1]["id"]
+    newID = str(int(lastUsedID) + 1)
+    userData['id'] = newID
+
+    # udate userList
+    userList.append(userData)
+    
+    # update users.json
+    with open('users.json', 'w') as file:
+        json.dump(userList, file, indent=4)
+    return "success"
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
