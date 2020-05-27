@@ -117,10 +117,12 @@ function deleteUser() {
     request.open('DELETE', '/users/' + id + '/');
     request.onload = function () {
 
+        console.log(request.response);
         // make "Save Changes" button provide feedback that user has been updated
         var button = document.getElementById('btnDeleteUser')
         button.innerHTML = "User deleted!";
         button.className = "w3-button w3-disabled w3-margin-top";
+        getUser(1);
         getUsers(document.getElementById('pageNumber').innerHTML);
     }
     request.send();

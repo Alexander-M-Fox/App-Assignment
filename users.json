@@ -54,12 +54,5 @@
         "first_name": "Lindsay",
         "last_name": "Ferguson",
         "avatar": "https://s3.amazonaws.com/uifaces/faces/twitter/araa3185/128.jpg"
-    },
-    {
-        "id": "9",
-        "email": "tobias.funke@reqres.in",
-        "first_name": "Tobias",
-        "last_name": "Funke",
-        "avatar": "https://s3.amazonaws.com/uifaces/faces/twitter/vivekprvr/128.jpg"
     }
 ]

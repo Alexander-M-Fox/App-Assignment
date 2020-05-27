@@ -4,10 +4,6 @@ from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
 
-# used a separate json file for persistence.
-with open('users.json') as file:
-    userList = json.load(file)
-
 
 @app.route('/')
 def index():
@@ -17,16 +13,27 @@ def index():
 @app.route('/users/', methods=["GET"])
 def getUserList():
     page = int(request.args["page"])
+
+    # select 6 users in same order as in users.json file, relative to page number.
     start = 6 * page - 6
     end = 6 * page
 
-    # return a subsection of userList based on page number
+    # read users.json directly before accessing userList to ensure most up to date version is copied into variable
+    with open('users.json') as file:
+        userList = json.load(file)
+
+    # return selection of users from all users, based on page number
     subList = userList[start:end]
     return jsonify({"data": subList})
 
 
 @app.route('/totalPages/')
 def getTotalPages():
+
+    # read users.json directly before accessing userList to ensure most up to date version is copied into variable
+    with open('users.json') as file:
+        userList = json.load(file)
+
     # page x of y - this function returns y.
     return str(math.ceil(len(userList) / 6))
 
@@ -38,6 +45,10 @@ def singleUser(userID):
         return getUserList
 
     userInt = int(userID)
+
+    # read users.json directly before accessing userList to ensure most up to date version is copied into variable
+    with open('users.json') as file:
+        userList = json.load(file)
 
     # search through json file for correct user
     for user in userList:
@@ -56,13 +67,24 @@ def updateUser(userID):
     # data in request is string, needs to be converted into json
     requestData = json.loads(request.data)
 
-    userInt = int(userID) - 1
+    userInt = int(userID)
 
-    # update copy of userList in RAM with new details
-    userList[userInt]["id"] = requestData['id']
-    userList[userInt]["email"] = requestData['email']
-    userList[userInt]["first_name"] = requestData['first_name']
-    userList[userInt]["last_name"] = requestData['last_name']
+    # read users.json directly before accessing userList to ensure most up to date version is copied into variable
+    with open('users.json') as file:
+        userList = json.load(file)
+
+    found = False
+    for user in range(len(userList)):
+        if userList[user]['id'] == str(userInt):
+            found = True
+            # update copy of userList in RAM with new details
+            userList[user]["id"] = requestData['id']
+            userList[user]["email"] = requestData['email']
+            userList[user]["first_name"] = requestData['first_name']
+            userList[user]["last_name"] = requestData['last_name']
+
+    if found == False:
+        return "error"
 
     # write this onto users.json file for persistence.
     with open('users.json', 'w') as file:
@@ -77,6 +99,10 @@ def deleteUser(userID):
 
     userInt = int(userID)
 
+    # read users.json directly before accessing userList to ensure most up to date version is copied into variable
+    with open('users.json') as file:
+        userList = json.load(file)
+
     found = False
     # search through json file for correct user
     for user in range(len(userList)):
@@ -84,14 +110,14 @@ def deleteUser(userID):
         if userList[user]['id'] == str(userInt):
             found = True
             del userList[user]
+            # write this onto users.json file for persistence.
+            with open('users.json', 'w') as file:
+                json.dump(userList, file, indent=4)
+            return "success"
 
     if found == False:
         return "error user not found"
 
-    # write this onto users.json file for persistence.
-    with open('users.json', 'w') as file:
-        json.dump(userList, file, indent=4)
-    return "success"
 
 @app.route('/users/new/', methods=["POST"])
 def createUser():
@@ -102,7 +128,10 @@ def createUser():
     if userData['email'] == "" or userData['first_name'] == "" or userData['last_name'] == "" or userData['avatar'] == "":
         return "createUser(): fields must not be empty"
 
-    
+    # read users.json directly before accessing userList to ensure most up to date version is copied into variable
+    with open('users.json') as file:
+        userList = json.load(file)
+
     # find id of last user in users.json
     lastUsedID = userList[len(userList) - 1]["id"]
     newID = str(int(lastUsedID) + 1)
