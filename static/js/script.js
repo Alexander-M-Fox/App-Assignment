@@ -47,10 +47,10 @@ function createTable(users) {
         // event listener for get request upon click
         // must use let here, as var overwrites each command with the next. 
         // let uses block level scope, thus not overwriting the last command each loop. 
-        let thisUser = parseInt(user);
+        let thisUser = parseInt(users.data[user].id);
 
         // needs to call backend for user ID
-        tRow.addEventListener('click', function () { getUser(thisUser + 1) });  
+        tRow.addEventListener('click', function () { getUser(thisUser) });
 
         var tCell0 = tRow.insertCell(index = 0);
         tCell0.innerHTML = users.data[user].id;
@@ -73,9 +73,6 @@ function createTable(users) {
 
 function getUser(userID) {
     var pageNo = document.getElementById('pageNumber').innerHTML;
-
-    // allows for more than 2 pages of users. 
-    userID = userID + (pageNo * 6) - 6; // makes up for using rows.
 
     var request = new XMLHttpRequest();
     request.open('GET', '/users/' + userID + '/');
