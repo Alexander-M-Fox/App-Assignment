@@ -28,6 +28,8 @@ def getUserList():
 @app.route('/totalPages/')
 def getTotalPages():
     # page x of y - this function returns y.
+    with open('users.json') as file:
+        userList = json.load(file)
     return str(math.ceil(len(userList) / 6))
 
 
@@ -64,6 +66,24 @@ def updateUser(userID):
     with open('users.json', 'w') as file:
         json.dump(userList, file, indent=4)
     return userList[userInt]
+
+
+@app.route('/users/<userID>/', methods=["DELETE"])
+def deleteUser(userID):
+    if len(userID) == 0:
+        return "Error no userID provided"
+
+    userInt = int(userID) - 1
+
+    if userList[userInt] in userList:
+        del userList[userInt]
+    else:
+        return "error user not found"
+
+    # write this onto users.json file for persistence.
+    with open('users.json', 'w') as file:
+        json.dump(userList, file, indent=4)
+    return "success"
 
 
 app.run(debug=True)

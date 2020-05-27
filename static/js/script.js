@@ -110,7 +110,6 @@ function updateUser() {
     var request = new XMLHttpRequest();
     request.open('PUT', '/users/' + data.id + '/');
     request.onload = function () {
-        var jReponse = JSON.parse(request.response);
 
         // make "Save Changes" button provide feedback that user has been updated
         var button = document.getElementById('btnSaveUser')
@@ -119,8 +118,24 @@ function updateUser() {
         getUsers(document.getElementById('pageNumber').innerHTML);
     }
     request.send(json);
+}
 
-    return "";
+function deleteUser() {
+
+    // pull data from form
+    var id = document.getElementById('userID').value;
+
+    var request = new XMLHttpRequest();
+    request.open('DELETE', '/users/' + id + '/');
+    request.onload = function () {
+
+        // make "Save Changes" button provide feedback that user has been updated
+        var button = document.getElementById('btnDeleteUser')
+        button.innerHTML = "User deleted!";
+        button.className = "w3-button w3-disabled w3-margin-top";
+        getUsers(document.getElementById('pageNumber').innerHTML);
+    }
+    request.send();
 }
 
 function refreshUpdateCredentials(response) {
