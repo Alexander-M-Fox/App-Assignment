@@ -65,7 +65,7 @@ function createTable(users) {
         tCell3.innerHTML = users.data[user].last_name;
 
         var tCell4 = tRow.insertCell(index = 4);
-        tCell4.innerHTML = "<img src='" + users.data[user].avatar + "'/>";
+        tCell4.innerHTML = "<img src='" + users.data[user].avatar + "' style='width:128px; height:128px;' />";
 
     }
 
@@ -126,9 +126,42 @@ function deleteUser() {
     request.send();
 }
 
+function newUser() {
+    var newEmail = document.getElementById('newEmail').value;
+    var newFirstName = document.getElementById('newFirstName').value;
+    var newLastName = document.getElementById('newLastName').value;
+    var newAvatar = document.getElementById('newAvatar').value;
+    var newButton = document.getElementById('btnNewUser');
+    // input validation
+    if (
+        newEmail == "" ||
+        newFirstName == "" ||
+        newLastName == "" ||
+        newAvatar == ""
+        ) {
+            console.log("One or more fields are blank");
+            newButton.innerHTML = "Error";
+    }
+
+    // POST request to backend
+    var data = {"id": "", "email": newEmail, "first_name": newFirstName, "last_name": newLastName, "avatar": newAvatar};
+    var json = JSON.stringify(data);
+
+    var request = new XMLHttpRequest();
+    request.open('POST', '/users/new/');
+    request.onload = function () {
+
+        // make "New User" button provide feedback that user has been created
+        newButton.innerHTML = "User created!";
+        newButton.className = "w3-button w3-disabled w3-margin-top";
+    }
+    request.send(json);
+}
+
 function refreshUpdateCredentials(response) {
     // updates 'Update Credentials' container
     document.getElementById('userAvatar').src = response.avatar;
+    document.getElementById('userAvatar').style = "width:160px; height:144px;"; // accounts for w3-padding
     document.getElementById('userID').value = response.id;
     document.getElementById('userEmail').value = response.email;
     document.getElementById('userFirstName').value = response.first_name;
@@ -145,6 +178,8 @@ function refreshUpdateCredentials(response) {
     button2.innerHTML = "Delete User";
     button2.className = "w3-button w3-margin-top";
     button2.style = "background-color: #42B2A6; color:white;";
+
+    document.getElementById('btnNewUser').innerHTML = "New User";
 
 
 }

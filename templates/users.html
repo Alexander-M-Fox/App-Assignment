@@ -25,7 +25,7 @@
                     style="background-color: #42B2A6; color:white;">Next</button>
                 <table id="tblUsers" class="w3-table w3-striped">
                     <tbody>
-                        <!--
+                        <!-- now created in javascript
                         <tr id="tblUserHeader">
                             <th>User ID</th>
                             <th>Email</th>
@@ -120,13 +120,17 @@
                     </header>
 
                     <form id="frmNewUser" class="w3-container w3-padding">
-                        <label>Username</label>
-                        <input type="text" id="userName" class="w3-input w3-border"><br>
-                        <label>Job</label>
-                        <input type="text" id="userJob" class="w3-input w3-border">
+                        <label>Email</label>
+                        <input type="text" id="newEmail" class="w3-input w3-border"><br>
+                        <label>First Name</label>
+                        <input type="text" id="newFirstName" class="w3-input w3-border"><br>
+                        <label>Last Name</label>
+                        <input type="text" id="newLastName" class="w3-input w3-border"><br>
+                        <label>Avatar URL</label>
+                        <input type="text" id="newAvatar" class="w3-input w3-border">
                         <div>
                             <button id="btnNewUser" class="w3-button w3-margin-top"
-                                style="background-color: #42B2A6; color:white;">New User</button>
+                                style="background-color: #42B2A6; color:white;" type="button" onclick="newUser()">New User</button>
                         </div>
                     </form>
 
