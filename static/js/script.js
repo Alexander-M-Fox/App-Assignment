@@ -135,10 +135,16 @@ function refreshUpdateCredentials(response) {
     document.getElementById('userLastName').value = response.last_name;
 
     // ensure "save changes" button no longer says "user updated" from updateUser();
-    var button = document.getElementById('btnSaveUser')
-    button.innerHTML = "Save Changes";
-    button.className = "w3-button w3-margin-top";
-    button.style = "background-color: #42B2A6; color:white;";
+    var button1 = document.getElementById('btnSaveUser')
+    button1.innerHTML = "Save Changes";
+    button1.className = "w3-button w3-margin-top";
+    button1.style = "background-color: #42B2A6; color:white;";
+
+    // ensure "delete user" button no longer says "user deleted" from deleteUser();
+    var button2 = document.getElementById('btnDeleteUser');
+    button2.innerHTML = "Delete User";
+    button2.className = "w3-button w3-margin-top";
+    button2.style = "background-color: #42B2A6; color:white;";
 
 
 }

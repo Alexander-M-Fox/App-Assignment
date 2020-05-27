@@ -1,12 +1,5 @@
 [
     {
-        "id": "1",
-        "email": "user1newemail.newemail.com",
-        "first_name": "newGeorge",
-        "last_name": "newBluthhh",
-        "avatar": "https://s3.amazonaws.com/uifaces/faces/twitter/calebogden/128.jpg"
-    },
-    {
         "id": "2",
         "email": "janet.weaver@reqres.inttt",
         "first_name": "Janetttt",
@@ -40,13 +33,6 @@
         "first_name": "Tracey",
         "last_name": "Ramos",
         "avatar": "https://s3.amazonaws.com/uifaces/faces/twitter/bigmancho/128.jpg"
-    },
-    {
-        "id": "7",
-        "email": "michael.lawson@reqres.innn",
-        "first_name": "Michaelllll",
-        "last_name": "Lawson",
-        "avatar": "https://s3.amazonaws.com/uifaces/faces/twitter/follettkyle/128.jpg"
     },
     {
         "id": "8",
