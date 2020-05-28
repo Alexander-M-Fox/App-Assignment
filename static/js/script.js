@@ -1,3 +1,6 @@
+// use strict enabled to force me to write quality code.
+"use strict";
+
 function getUsers(pageNo) {
     document.getElementById('pageNumber').innerHTML = pageNo;
     var request = new XMLHttpRequest();
@@ -8,7 +11,7 @@ function getUsers(pageNo) {
             var jReponse = JSON.parse(request.response);
             getMaxPage();
             if (jReponse['data'].length == 0) {
-                getUsers(pageNo-1);
+                getUsers(pageNo - 1);
                 return "something";  // need a return here to stop createTable(jResponse) from overwriting recursion
             }
             createTable(jReponse);
@@ -28,28 +31,29 @@ function createTable(users) {
     table.innerHTML = "";
 
     // create header row
-    var headerRow = table.insertRow(index = -1);
-    headerCell = document.createElement('th');
+    var index = -1;
+    var headerRow = table.insertRow(index);
+    var headerCell = document.createElement('th');
     headerCell.innerHTML = "User ID";
     headerRow.appendChild(headerCell);
 
-    headerCell2 = document.createElement('th');
+    var headerCell2 = document.createElement('th');
     headerCell2.innerHTML = "Email";
     headerRow.appendChild(headerCell2);
 
-    headerCell3 = document.createElement('th');
+    var headerCell3 = document.createElement('th');
     headerCell3.innerHTML = "First Name";
     headerRow.appendChild(headerCell3);
 
-    headerCell4 = document.createElement('th');
+    var headerCell4 = document.createElement('th');
     headerCell4.innerHTML = "Last Name";
     headerRow.appendChild(headerCell4);
 
-    headerCell5 = document.createElement('th');
+    var headerCell5 = document.createElement('th');
     headerCell5.innerHTML = "Avatar";
     headerRow.appendChild(headerCell5);
 
-    for (user in users.data) {
+    for (var user in users.data) {
 
         var tRow = table.insertRow(index = -1);
 
