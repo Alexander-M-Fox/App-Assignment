@@ -29,7 +29,6 @@ def getUserList():
 
 @app.route('/totalPages/')
 def getTotalPages():
-
     # read users.json directly before accessing userList to ensure most up to date version is copied into variable
     with open('users.json') as file:
         userList = json.load(file)
@@ -113,7 +112,7 @@ def deleteUser(userID):
                 json.dump(userList, file, indent=4)
             return "success", 200
 
-    if found == False:
+    if found is False:
         return "error user not found", 404
 
 
@@ -135,7 +134,7 @@ def createUser():
     newID = str(int(lastUsedID) + 1)
     userData['id'] = newID
 
-    # udate userList
+    # update userList
     userList.append(userData)
 
     # update users.json
