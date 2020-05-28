@@ -7,6 +7,10 @@ function getUsers(pageNo) {
             // returns list of users within a page. 
             var jReponse = JSON.parse(request.response);
             getMaxPage();
+            if (jReponse['data'].length == 0) {
+                getUsers(pageNo-1);
+                return "something";  // need a return here to stop createTable(jResponse) from overwriting recursion
+            }
             createTable(jReponse);
         } else {
             console.error(JSON.parse(request.responseText));
