@@ -3,10 +3,15 @@ function getUsers(pageNo) {
     var request = new XMLHttpRequest();
     request.open('GET', '/users/?page=' + pageNo);
     request.onload = function () {
-        // returns list of users within a page. 
-        var jReponse = JSON.parse(request.response);
-        getMaxPage();
-        createTable(jReponse);
+        if (request.readyState == 4 && request.status == '200') {
+            // returns list of users within a page. 
+            var jReponse = JSON.parse(request.response);
+            getMaxPage();
+            createTable(jReponse);
+        } else {
+            console.error(JSON.parse(request.responseText));
+        }
+
     }
     request.send();
 }
@@ -77,8 +82,13 @@ function getUser(userID) { // getUser (singular) is different from getUsers (plu
     var request = new XMLHttpRequest();
     request.open('GET', '/users/' + userID + '/');
     request.onload = function () {
-        var jReponse = JSON.parse(request.response);
-        refreshUpdateCredentials(jReponse);
+        if (request.readyState == 4 && request.status == '200') {
+            var jReponse = JSON.parse(request.response);
+            refreshUpdateCredentials(jReponse);
+        } else {
+            console.log(JSON.parse(request.responseText));
+        }
+
     }
     request.send();
 }
@@ -98,12 +108,16 @@ function updateUser() {
     var request = new XMLHttpRequest();
     request.open('PUT', '/users/' + data.id + '/');
     request.onload = function () {
+        if (request.readyState == 4 && request.status == '200') {
+            // make "Save Changes" button provide feedback that user has been updated
+            var button = document.getElementById('btnSaveUser')
+            button.innerHTML = "User updated!";
+            button.className = "w3-button w3-disabled w3-margin-top";
+            getUsers(document.getElementById('pageNumber').innerHTML);
+        } else {
+            console.error(JSON.parse(request.responseText));
+        }
 
-        // make "Save Changes" button provide feedback that user has been updated
-        var button = document.getElementById('btnSaveUser')
-        button.innerHTML = "User updated!";
-        button.className = "w3-button w3-disabled w3-margin-top";
-        getUsers(document.getElementById('pageNumber').innerHTML);
     }
     request.send(json);
 }
@@ -116,14 +130,17 @@ function deleteUser() {
     var request = new XMLHttpRequest();
     request.open('DELETE', '/users/' + id + '/');
     request.onload = function () {
+        if (request.readyState == 4 && request.status == '200') {
+            // make "Save Changes" button provide feedback that user has been updated
+            var button = document.getElementById('btnDeleteUser')
+            button.innerHTML = "User deleted!";
+            button.className = "w3-button w3-disabled w3-margin-top";
+            getUser(1);
+            getUsers(document.getElementById('pageNumber').innerHTML);
+        } else {
+            console.error(JSON.parse(request.responseText));
+        }
 
-        console.log(request.response);
-        // make "Save Changes" button provide feedback that user has been updated
-        var button = document.getElementById('btnDeleteUser')
-        button.innerHTML = "User deleted!";
-        button.className = "w3-button w3-disabled w3-margin-top";
-        getUser(1);
-        getUsers(document.getElementById('pageNumber').innerHTML);
     }
     request.send();
 }
@@ -140,26 +157,31 @@ function newUser() {
         newFirstName == "" ||
         newLastName == "" ||
         newAvatar == ""
-        ) {
-            console.log("One or more fields are blank");
-            newButton.innerHTML = "Error";
+    ) {
+        console.log("One or more fields are blank");
+        newButton.innerHTML = "Error";
     }
 
     // POST request to backend
-    var data = {"id": "", "email": newEmail, "first_name": newFirstName, "last_name": newLastName, "avatar": newAvatar};
+    var data = { "id": "", "email": newEmail, "first_name": newFirstName, "last_name": newLastName, "avatar": newAvatar };
     var json = JSON.stringify(data);
 
     var request = new XMLHttpRequest();
     request.open('POST', '/users/new/');
     request.onload = function () {
-        // make "New User" button provide feedback that user has been created
-        newButton.innerHTML = "User created!";
-        document.getElementById('newEmail').value = "";
-        document.getElementById('newFirstName').value = "";
-        document.getElementById('newLastName').value = "";
-        document.getElementById('newAvatar').value = "";
-        newButton.className = "w3-button w3-disabled w3-margin-top";
-        getUsers(document.getElementById('pageNumber').innerHTML);
+        if (request.readyState == 4 && request.status == "200") {
+            // make "New User" button provide feedback that user has been created
+            newButton.innerHTML = "User created!";
+            document.getElementById('newEmail').value = "";
+            document.getElementById('newFirstName').value = "";
+            document.getElementById('newLastName').value = "";
+            document.getElementById('newAvatar').value = "";
+            newButton.className = "w3-button w3-disabled w3-margin-top";
+            getUsers(document.getElementById('pageNumber').innerHTML);
+        } else {
+            console.error(JSON.parse(request.responseText));
+        }
+
     }
     request.send(json);
 }
@@ -204,9 +226,14 @@ function getMaxPage() {
     var request = new XMLHttpRequest();
     request.open('GET', '/totalPages/');
     request.onload = function () {
-        var totalPages = request.response;
-        document.getElementById('totalPages').innerHTML = totalPages;
-        return totalPages
+        if (request.readyState == 4 && request.status == '200') {
+            var totalPages = request.response;
+            document.getElementById('totalPages').innerHTML = totalPages;
+            return totalPages;
+        } else {
+            console.error(JSON.parse(request.responseText));
+        }
+
     }
     request.send();
 }
